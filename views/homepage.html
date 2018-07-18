@@ -1,0 +1,192 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script type="text/javascript" src="app.js"></script>
+  <style type="text/css">
+    .box{
+          border: 8px solid #90caf9;
+    height: 40em;
+    width: 40em;
+    border-radius: 20px;
+    /*margin-top: 5%;
+    margin-left: 30%;
+    margin-right: 30%;*/
+    margin:auto;
+    background: white;
+
+    }
+    ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #1976d2;
+    opacity: 1; /* Firefox */
+  }
+    .subbox{
+      border: 3px solid #1976d2;
+    height: 33%;
+    width: 75%;
+    margin-left: 13%;
+    margin-top: 5%;
+    border-radius: 20px;
+    background: white;
+    }
+    .after{
+      border: 3px solid #64b5f6;
+    height: 25%;
+    width: 75%;
+    margin-left: 13%;
+    margin-top: 5%;
+    border-radius: 20px;
+    text-align: center;
+    background: #9fa8da;
+    font-size: 40px;
+
+    }
+    body {
+      background:url(https://images.pexels.com/photos/730567/pexels-photo-730567.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);
+      background-size: cover;
+      background-position: center;
+      color: white;
+      background-color: #555;
+      background-repeat: no-repeat;
+      display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+            background-attachment: fixed;
+            font-family: 'Acme', sans-serif;
+    }
+    main {
+    flex: 1 0 auto;
+  }
+      
+}
+  </style>
+  <script type="text/javascript">
+  window.onload = function () {
+    $.ajax({
+      method:"GET",
+      url:"https://api.coindesk.com/v1/bpi/historical/close.json"
+    }).done(function(historicaldata){
+      const d=JSON.parse(historicaldata)
+      //console.log(d.bpi)
+
+      var dates=Object.keys(d.bpi)
+      var ldates=dates.slice(dates.length-10)
+      var values=Object.values(d.bpi)
+      var lvalues=values.slice(values.length-10)
+      //console.log(lvalues)
+      var fu=function(ldates,lvalues){
+        
+        var points=[]
+        for(var i=0;i<10;i++){
+          var ob={x:i+1,y:lvalues[i]*66.94}
+          points.push(ob)
+
+        }
+        //console.log(points)
+        return points
+      }
+      var chart = new CanvasJS.Chart("chartContainer",
+    {
+
+      title:{
+      text: "Prices In The Past 10 Days (UTC-TIME)"
+      },
+      axisX:{
+        title:"Past 10 Days"
+      },
+      axisY:{
+        title:"-------------INR---->",
+        includeZero: false
+
+      },
+
+       data: [
+      {
+        type: "line",
+
+        dataPoints: fu(ldates,lvalues)
+      }
+      ]
+    });
+
+    chart.render();
+
+    }).fail(function(err){
+      console.log(err);
+    })
+    
+  }
+  </script>
+ <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script></head>
+<body>
+  <nav class="light-blue lighten-3">
+    <div class="nav-wrapper " style="width: 100%">
+      <a  class="brand-logo center black-text">Notify Me !!</a>
+      
+    </div>
+  </nav>
+  <main>
+  <div class="row"></div>
+  <div class="row"></div>
+  <div class="row"></div>
+  <div class="row"></div>
+
+ <div class="row">
+  <div class="col s12 m4 l2">
+    <div class="card blue lighten-2">
+        <div class="card-content white-text">
+          <span class="card-title">Step-1</span>
+          <p>Fill In Your Name,Email Id and Price</p>
+        </div>
+        
+      </div>
+      <div class="card orange darken-1">
+        <div class="card-content white-text">
+          <span class="card-title">Step-2</span>
+          <p>Wait And Receive Hourly Update Whenever The Price Hits Below Your Given Price</p>
+        </div>
+        
+      </div>
+    
+  </div>
+  <div class="col s12 m8 l10">
+    <div class="box hoverable z-depth-2 container">
+    <div  id="chartContainer" style="height: 50%; width: 100%;"></div>
+    
+      <div style="display: none;" class="after">Thank You We'll Keep You Informed</div>
+    
+    <div class="subbox">
+      
+      <input type="text" name="name" placeholder="Your Name" autocomplete="off" id="nameholder">
+      <input type="text" name="email" placeholder="abc@gmail.com" autocomplete="off" id="emailholder">
+      <input type="text" name="price" placeholder="Price" autocomplete="off" id="priceholder">
+
+
+    </div>
+    <button style="margin-left: 40%;margin-top: 2%" id="submit" class="btn btn-primary blue lighten-2 hoverable">Submit</button>
+    <!-- <div id="errorhandler">Shitty</div> -->
+  </div>
+    
+  </div>
+   
+
+ </div>
+</main>
+<footer class="page-footer container light-blue lighten-3">
+          
+          <div class="footer-copyright">
+            <div class="container">
+            © 2018 Copyright Text
+            <a class="grey-text text-lighten-4 right" href="">Developer</a>
+            </div>
+          </div>
+        </footer>
+  
+  
+  
+
+  <body>
+</html>
