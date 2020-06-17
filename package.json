@@ -12,7 +12,7 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "mongoose": "^5.0.17",
-    "nodemailer": "^4.6.5",
+    "nodemailer": "^6.4.10",
     "request": "^2.87.0",
     "xoauth2": "^1.2.0"
   }
